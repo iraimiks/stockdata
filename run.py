@@ -3,7 +3,7 @@ from stock.database.dataworker import Base, insert_stock, select_all
 from stock import engine
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import sys
 def initDB():
     Base.metadata.create_all(engine)
 
@@ -29,14 +29,14 @@ def draw_chart():
     plt.show()
 
 def run():
-    print("Init DB")
     initDB()
-    print("Get data form ")
     insert_stock(data_stock_api())
-    print("Prepare csv ")
-    report_to_csv()
-    print("Draw chart ")
-    draw_chart()
 
 if __name__ == '__main__':
     run()
+    if sys.argv[1] == "csv":
+        report_to_csv()
+    elif sys.argv[1] == "chart":
+        draw_chart()
+    else:
+        print("Wrong arg name, alowed csv or chart")
